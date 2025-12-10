@@ -4,6 +4,8 @@
 
 namespace Pulsar {
 namespace Network {
+//CTDN - change region numbers accordingly	
+
 //Region Patch (Leseratte)
 static void PatchLoginRegion() {
     u32 region = System::sInstance->GetInfo().GetWiimmfiRegion() + 22100;
