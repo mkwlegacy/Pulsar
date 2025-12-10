@@ -118,14 +118,14 @@ SectionParams& FavouriteCombo(SectionParams& params) {
 kmBranch(0x805e4228, FavouriteCombo);*/
 
 
-void SetDefaultToFavouriteCombo(SectionParams& params, PushButton& button) {
-    const RKSYS::Mgr* rksysMgr = RKSYS::Mgr::sInstance;
-    const RKSYS::LicenseMgr& LicenseMgr = rksysMgr->licenses[button.buttonId - 1];
-    params.ChangeLicense();
-    params.characters[0] = LicenseMgr.GetFavouriteCharacter();
-    params.karts[0] = LicenseMgr.GetFavouriteKart();
-}
-kmCall(0x805eb7c4, SetDefaultToFavouriteCombo);
+//void SetDefaultToFavouriteCombo(SectionParams& params, PushButton& button) {
+//    const RKSYS::Mgr* rksysMgr = RKSYS::Mgr::sInstance;
+//    const RKSYS::LicenseMgr& LicenseMgr = rksysMgr->licenses[button.buttonId - 1];
+//    params.ChangeLicense();
+//    params.characters[0] = LicenseMgr.GetFavouriteCharacter();
+//    params.karts[0] = LicenseMgr.GetFavouriteKart();
+//}
+//kmCall(0x805eb7c4, SetDefaultToFavouriteCombo);
 
 
 u8 ModifyCheckRankings() {
@@ -151,7 +151,7 @@ CameraParamBin* GetKartParamCamera(u32 weight, u32 screenCount) {
         s_hasSavedCameraParams = true;
     } // Closing brace added here
 
-    MenuSetting2FOV fovChange = static_cast<MenuSetting2FOV>(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_MENU2, SETTINGMENU2_RADIO_FOV));
+    MenuSetting2FOV fovChange = static_cast<MenuSetting2FOV>(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_OTT, SETTINGMENU2_RADIO_FOV));
     if (fovChange != MENUSETTING2_FOV_DEFAULT) {
         if (fovChange == MENUSETTING2_FOV_169) {
             for (int i = 0; i < 9; ++i) {

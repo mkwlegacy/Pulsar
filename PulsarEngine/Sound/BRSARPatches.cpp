@@ -51,7 +51,6 @@ kmCall(0x800a66f4, LoadBRSTMVolumeAndFixTrackCount);
 
 //Automatic BRSAR patching from Elias_
 void BRSAREntrySizePatch(snd::DVDSoundArchive::DVDFileStream* stream, s32 offset, u32 origin) {
-    if(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_MENU, SETTINGMENU_RADIO_BRSAR) == MENUSETTING_BRSAR_ENABLED)
     stream->size = 0x7FFFFFFF;
     stream->Seek(offset, origin);
 }

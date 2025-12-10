@@ -56,10 +56,10 @@ kmCall(0x8082c140, GetCommonBinary); //ObjFlow
 kmCall(0x807f92ac, GetCommonBinary); //GeoHitTables
 
 //Uses the 2nd KTPT entry (if it exists in the KMP) to draw the finish line on the minimap
-const KMP::Holder<KTPT>* SecondaryKTPT(const KMP::Manager& manager, u32 idx) {
-    const KMP::Holder<KTPT>* holder = manager.GetHolder<KTPT>(1);
-    if(holder == nullptr) holder = manager.GetHolder<KTPT>(0);
-    return holder;
-}
-kmCall(0x807ea670, SecondaryKTPT);
+//const KMP::Holder<KTPT>* SecondaryKTPT(const KMP::Manager& manager, u32 idx) {
+//    const KMP::Holder<KTPT>* holder = manager.GetHolder<KTPT>(1);
+//    if(holder == nullptr) holder = manager.GetHolder<KTPT>(0);
+//    return holder;
+//}
+//kmCall(0x807ea670, SecondaryKTPT);
 }//namespace Pulsar

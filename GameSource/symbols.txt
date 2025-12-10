@@ -1882,6 +1882,14 @@ Blurry = 0x8016fba0
 U32_RBBG_HOOK_PT1= 0x802575DF
 U32_RBBG_HOOK_PT2= 0x80258184
 FPSPatchHook = 0x80001202
+TF_MUSIC_FIX = 0x80719920
+
+MegaFlipCar = 0x8082AC00
+ColorMinimap = 0x807DFC24
+DisableBump = 0x80570740
+NeverBurnOut = 0x80595B18
+TripleBanana = 0x808A5380
+
 beginFrame= 0x8020fe24
 GetCameraParamBin__Q24Kart4LinkFUiUi= 0x805927d4
 

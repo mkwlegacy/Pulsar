@@ -128,14 +128,15 @@ kmWrite32(0x807F4DB8, 0x38000001);
 
 //Draggable blue shells
 static void DraggableBlueShells(Item::PlayerObj& sub) {
-    if(!System::sInstance->IsContext(PULSAR_CT)) {
+	const u8 dgbs = Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_RACE, SETTINGRACE_RADIO_BLUES);
+    if(dgbs == RACESETTING_BLUES_DISABLED) {
         sub.isNotDragged = true;
     }
 }
 kmBranch(0x807ae8ac, DraggableBlueShells);
 
 //Coloured Minimap
-kmWrite32(0x807DFC24, 0x60000000);
+//kmWrite32(0x807DFC24, 0x60000000);
 
 /*
 //No Team Invincibility
@@ -154,49 +155,45 @@ kmWrite32(0x807f18c8, 0x38000000); //TC alert*/
 //kmWrite16(0x80569F68, 0x4800);
 
 //CtrlItemWindow
-kmWrite24(0x808A9C16, 'PUL'); //item_window_new -> item_window_PUL
+//kmWrite24(0x808A9C16, 'PUL'); //item_window_new -> item_window_PUL
 
-const char* ChangeItemWindowPane(ItemId id, u32 itemCount) {
-    const bool feather = System::sInstance->IsContext(PULSAR_FEATHER);
-    const bool megaTC = System::sInstance->IsContext(PULSAR_MEGATC);
-    const char* paneName;
-    if (id == BLOOPER && feather) {
-        if (itemCount == 2) paneName = "feather_2";
-        else if (itemCount == 3) paneName = "feather_3";
-        else paneName = "feather";
-    }
-    else if (id == THUNDER_CLOUD && megaTC) paneName = "megaTC";
-    else paneName = GetItemIconPaneName(id, itemCount);
-    return paneName;
-}
-kmCall(0x807f3648, ChangeItemWindowPane);
-kmCall(0x807ef168, ChangeItemWindowPane);
-kmCall(0x807ef3e0, ChangeItemWindowPane);
-kmCall(0x807ef444, ChangeItemWindowPane);
-
-kmWrite24(0x808A9FF3, 'PUL');
-
-//Accurate Item Roulette Roulette by BrawlBox
-static int AccurateItemRoulette(Item::ItemSlotData *itemSlotData, u16 itemBoxType, u8 position, ItemId prevRandomItem, bool r7){
-        if (!IsBattle()){
-            const u8 playerId = Raceinfo::sInstance->playerIdInEachPosition[position-1];
-            Item::Player *itemPlayer = &Item::Manager::sInstance->players[playerId];
-            return itemSlotData->DecideItem(itemBoxType, position, itemPlayer->isHuman, 0x1, itemPlayer);
-            }
-            return itemSlotData->DecideRouletteItem(itemBoxType, position, prevRandomItem, r7);
-}
-kmCall(0x807ba1e4, AccurateItemRoulette);
-kmCall(0x807ba428, AccurateItemRoulette);
-kmCall(0x807ba598, AccurateItemRoulette);
+//const char* ChangeItemWindowPane(ItemId id, u32 itemCount) {
+//    const bool feather = System::sInstance->IsContext(PULSAR_FEATHER);
+//    const bool megaTC = System::sInstance->IsContext(PULSAR_MEGATC);
+//    const char* paneName;
+//    if (id == BLOOPER && feather) {
+//        if (itemCount == 2) paneName = "feather_2";
+//        else if (itemCount == 3) paneName = "feather_3";
+//        else paneName = "feather";
+//    }
+//    else if (id == THUNDER_CLOUD && megaTC && RKNet::Controller::sInstance->roomType != RKNet::ROOMTYPE_VS_WW) paneName = "megaTC";
+//    else paneName = GetItemIconPaneName(id, itemCount);
+//    return paneName;
+//}
+//kmCall(0x807f3648, ChangeItemWindowPane);
+//kmCall(0x807ef168, ChangeItemWindowPane);
+//kmCall(0x807ef3e0, ChangeItemWindowPane);
+//kmCall(0x807ef444, ChangeItemWindowPane);
+//
+//kmWrite24(0x808A9FF3, 'PUL');
 
 //Deflicker by Toadette Hack Fan and Optllizer
 void DeFlicker() {
 Blurry = 0x41820040;
-if(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_MENU2, SETTINGMENU2_RADIO_FLICKER) == MENUSETTING2_FLICKER_ENABLED) {
+if(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_OTT, SETTINGMENU2_RADIO_FLICKER) == MENUSETTING2_FLICKER_ENABLED) {
 Blurry = 0x48000040;
 }
 }
 static RaceLoadHook Deflick(DeFlicker);
+
+//TODO fix this (dont know why it doesnt work tbh!!)
+//void TFMusicFix() {
+//TF_MUSIC_FIX = 0x4BFDF7A5;
+//if(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_KO, SETTINGRACE_RADIO_TFRESET) == RACESETTING_TFRESET_ENABLED) {
+//TF_MUSIC_FIX = 0x48000010;
+//}
+//}
+//static RaceLoadHook TFFix(TFMusicFix);
 
 //Force 30FPS by vabold
 kmWrite32(0x80554224, 0x3C808000);
@@ -205,7 +202,7 @@ kmWrite32(0x8055422C, 0x48000044);
 
  void FPSPatch() {
     FPSPatchHook = 0x00;
-    if (Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_MENU2, SETTINGMENU2_RADIO_FPS) == 1) {
+    if (Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_OTT, SETTINGMENU2_RADIO_FPS) == 1) {
         FPSPatchHook = 0x00FF0100;
     }
     System::CacheInvalidateAddress(FPSPatchHook);
@@ -213,18 +210,18 @@ kmWrite32(0x8055422C, 0x48000044);
 static PageLoadHook PatchFPS(FPSPatch);
 
 //Remove Background Blur by TheGamingBram
-void Remove_Background_Blur(){
-    U32_RBBG_HOOK_PT1 = 0x03000000;
-    U32_RBBG_HOOK_PT2 = 0x3f000000;
-
-    if(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_MENU2, SETTINGMENU2_RADIO_BLUR) == 1){
-        U32_RBBG_HOOK_PT1 = 0x03000000;
-        U32_RBBG_HOOK_PT2 = 0x30000000;
-    }
-    System::CacheInvalidateAddress(U32_RBBG_HOOK_PT1);
-    System::CacheInvalidateAddress(U32_RBBG_HOOK_PT2);
-}
-static PageLoadHook RBBG_Hook(Remove_Background_Blur);
+//void Remove_Background_Blur(){
+//    U32_RBBG_HOOK_PT1 = 0x03000000;
+//    U32_RBBG_HOOK_PT2 = 0x3f000000;
+//
+//    if(Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_OTT, SETTINGMENU2_RADIO_BLUR) == 1){
+//        U32_RBBG_HOOK_PT1 = 0x03000000;
+//        U32_RBBG_HOOK_PT2 = 0x30000000;
+//    }
+//    System::CacheInvalidateAddress(U32_RBBG_HOOK_PT1);
+//    System::CacheInvalidateAddress(U32_RBBG_HOOK_PT2);
+//}
+//static PageLoadHook RBBG_Hook(Remove_Background_Blur);
 
 //Always Show Timer on Vote Screen by Chadderz
 kmWrite32(0x80650254,0x60000000);
@@ -262,85 +259,5 @@ kmWrite32(0x80895CE0, 0x00200086);
 kmWrite32(0x80895CE4, 0x008600FF);
 */
 
-//AntiFlicker by Riidefi
-asmFunc AntiFlicker() {
-    ASM(
-        nofralloc;
-loc_0x0:
-  lwz r4, 0(r3);
-  lbz r5, 16(r4);
-  andi. r5, r5, 0x40;
-  bne- loc_0x6C;
-  lwz r5, 40(r4);
-  li r6, 0x20;
-  add r5, r4, r5;
-  b loc_0x2C;
-
-loc_0x20:
-  addi r6, r6, 0x1;
-  cmpwi r6, 0x80;
-  bge- loc_0x6C;
-
-loc_0x2C:
-  mr r7, r5;
-  lbzux r8, r7, r6;
-  cmplwi r8, 0;
-  beq+ loc_0x20;
-  cmplwi r8, 97;
-  bne- loc_0x6C;
-  lwz r7, 1(r7);
-  not r8, r7;
-  rlwinm r7, r7, 8, 24, 31;
-  rlwinm. r8, r8, 0, 8, 31;
-  cmpwi cr1, r7, 0x27;
-  crorc 20, 2, 6;
-  bge- cr5, loc_0x74;
-  addi r6, r6, 0x5;
-  cmpwi r6, 0x80;
-  blt+ loc_0x2C;
-
-loc_0x6C:
-  lwz r3, 0(r3);
-  b end;
-
-loc_0x74:
-  lbz r5, 23(r4);
-  cmplwi r5, 0;
-  bne- loc_0x88;
-  li r5, 0x1;
-  stb r5, 23(r4);
-
-loc_0x88:
-  lwz r5, 60(r4);
-  add r4, r4, r5;
-  lbzu r5, 170(r4);
-  lbz r6, 5(r4);
-  cmpwi r5, 0x0;
-  lbz r5, 10(r4);
-  beq- loc_0xB4;
-  cmpwi r6, 0x0;
-  beq- loc_0xB4;
-  cmpwi r5, 0x0;
-  bne+ loc_0x6C;
-
-loc_0xB4:
-  lis r5, 0x800;
-  stw r5, 11(r4);
-  lis r5, 0x9800;
-  ori r5, r5, 0x6108;
-  stw r5, 8(r4);
-  lis r5, 0x3361;
-  ori r5, r5, 0x7D9;
-  stw r5, 4(r4);
-  lis r5, 0x6106;
-  ori r5, r5, 0x8003;
-  stw r5, 0(r4);
-  lwz r3, 0(r3);
-  end:
-  blr;
-    )
-}
-kmBranch(0x80052190, AntiFlicker);
-kmPatchExitPoint(AntiFlicker, 0x80052194);
 }//namespace Race
 }//namespace Pulsar

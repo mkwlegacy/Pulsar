@@ -59,9 +59,10 @@ class ExpCharacterSelect : public Pages::CharacterSelect {
 public:
     ExpCharacterSelect();
     void BeforeControlUpdate() override;
-    void OnStartPress(u32 hudSlotId) override {
-        if(hudSlotId == 0) RandomizeCombo();
-    }
+	//Disable Randomize Combo as it can still crash
+    //void OnStartPress(u32 hudSlotId) override {
+    //    if(hudSlotId == 0) RandomizeCombo();
+    //}
     CharacterId randomizedCharIdx[2];
     CharacterId rolledCharIdx[2];
     s32 rouletteCounter;

@@ -11,7 +11,7 @@ this just works and 99.9% also want the menu music disabled.*/
 namespace Pulsar{
 namespace Sound {
     void SetMusicState(){
-        if (Pulsar::Settings::Mgr::Get().GetSettingValue(Pulsar::Settings::SETTINGSTYPE_MENU,SETTINGMENU_RADIO_DISABLEMUSIC)){
+        if (Pulsar::Settings::Mgr::Get().GetSettingValue(Pulsar::Settings::SETTINGSTYPE_KO,SETTINGMENU_RADIO_DISABLEMUSIC)){
            Audio::PlayersVolumeMgr::sInstance->volumes[0].curValue = 0;
         }
     }

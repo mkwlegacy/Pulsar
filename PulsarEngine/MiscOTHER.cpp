@@ -4,7 +4,7 @@ namespace Pulsar {
 namespace Race {
 
 //Mushroom Glitch
-kmWrite8(0x807BA077, 0x00000000);
+//kmWrite8(0x807BA077, 0x00000000);
 
 //Rexcore Countdown
 kmWrite32(0x805A225C, 0x38800001);
@@ -19,8 +19,14 @@ kmWrite32(0x80549218, 0x38600000);
 kmWrite32(0x8054921c, 0x4e800020);
 
 //WW Bubble Skip [Ro]
-kmWrite8(0x80609647, 0x0000003C);
-kmWrite8(0x8060964F, 0x0000001E);
+//kmWrite8(0x80609647, 0x0000003C);
+//kmWrite8(0x8060964F, 0x0000001E);
+
+//Skip Mode Select Option Online (Always VS) [Ro]
+//CTDN - enable this
+//kmWrite32(0x8064BD88, 0x3800008F);
+//kmWrite32(0x8064BE64, 0x3800008F);
+//kmWrite32(0x80609AAC, 0x3800008B);
 
 //Remove Chadderz Button
 kmWrite16(0x8064B982, 0x00000005);

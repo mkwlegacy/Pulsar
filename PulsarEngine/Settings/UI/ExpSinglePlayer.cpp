@@ -17,7 +17,7 @@ void CorrectButtonCount(Pages::SinglePlayer* page) {
     const System* system = System::sInstance;
     const bool hasFeather = system->GetInfo().HasFeather();
     const bool has200cc = system->GetInfo().Has200cc();
-    page->externControlCount = 4 + hasFeather + has200cc + (hasFeather && has200cc) + 1;
+    page->externControlCount = 4 + 1;
     new (page) Page;
 }
 kmCall(0x806266b8, CorrectButtonCount);

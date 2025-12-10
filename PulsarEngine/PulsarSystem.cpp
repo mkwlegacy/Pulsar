@@ -156,10 +156,10 @@ void System::UpdateContext() {
                 isMiiHeads = newContext & (1 << PULSAR_MIIHEADS);
                 isRegs = newContext & (1 << PULSAR_REGS);
                 isRegsOnly = newContext & (1 << PULSAR_REGSONLY);
-                if(isOTT) {
-                    isUMTs &= newContext & (1 << PULSAR_UMTS);
-                    isFeather &= newContext & (1 << PULSAR_FEATHER);
-                }
+                //if(isOTT) {
+                //    isUMTs &= newContext & (1 << PULSAR_UMTS);
+                //    isFeather &= newContext & (1 << PULSAR_FEATHER);
+                //}
                 break;
             default: isCT = false;
         }
