@@ -1,3 +1,6 @@
+# Legacy Pack Revival
+This is the source code for Legacy Pack Revival v2. It is a fork of Yosh's Track Pack DX which is a fork of OptPack which is a fork of Pulsar. Yes this is necessary
+
 # Pulsar
 
 Pulsar is a Mario Kart Wii Kamek-Based engine to create CT distributions. It comes with its own [software](../main/PulsarPackCreator/Executable) to aid in building custom distributions, and multiple quality of life features:
