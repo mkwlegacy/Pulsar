@@ -16,7 +16,7 @@ RaceinfoPlayer* LoadCustomLapCount(RaceinfoPlayer* player, u8 id) {
         lapCount = 3;
     }
 	//CTDN - replace the last 3 lines with this
-	//lapCount = 9;
+	//lapCount = 8;
     Racedata::sInstance->racesScenario.settings.lapCount = lapCount;
     return new(player) RaceinfoPlayer(id, lapCount);
 }
